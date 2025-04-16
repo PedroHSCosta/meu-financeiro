@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import GraficoEvolucaoSaldo from "../components/Graficos/GraficoEvolucaoSaldo";
+import { CardAmount } from "../components/comprovante/CardAmount";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -78,30 +79,24 @@ const Dashboard = () => {
       <h1 className="text-3xl font-bold mb-6">Inicio</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-2">Saldo Total</h2>
-          <p className="text-2xl text-green-600 font-bold">
-            R$ {saldoTotal.toFixed(2)}
-          </p>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-2">Gastos Previstos</h2>
-          <p className="text-2xl text-yellow-600 font-bold">
-            R$ {totalContasAPagar.toFixed(2)}
-          </p>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-2">Entradas</h2>
-          <p className="text-2xl text-blue-600 font-bold">
-            R$ {entradas.toFixed(2)}
-          </p>
-        </div>
-        <div className="bg-white rounded-2xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-2">Saídas</h2>
-          <p className="text-2xl text-red-600 font-bold">
-            R$ {saidas.toFixed(2)}
-          </p>
-        </div>
+        <CardAmount
+          amount={saldoTotal}
+          title={"Saldo total"}
+          color={"text-green-600"}
+        />
+
+        <CardAmount
+          amount={totalContasAPagar}
+          title={"Total contas a pagar"}
+          color={"text-yellow-600"}
+        />
+
+        <CardAmount
+          amount={entradas}
+          title={"entradas"}
+          color={"text-blue-600"}
+        />
+        <CardAmount amount={saidas} title={"saidas"} color={"text-red-600"} />
       </div>
 
       <div>

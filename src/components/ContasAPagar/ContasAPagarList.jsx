@@ -96,7 +96,11 @@ export default function ContasAPagarList() {
               <div className="space-y-1">
                 <p className="text-lg font-semibold">{conta.descricao}</p>
                 <p className="text-gray-700">
-                  Valor: R$ {conta.valor.toFixed(2)}
+                  Valor:{" "}
+                  {conta.valor.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
                 </p>
                 <p className="text-gray-700">
                   Vencimento:{" "}
