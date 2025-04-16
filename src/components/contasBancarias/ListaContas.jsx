@@ -104,7 +104,11 @@ function ListaContas() {
                 <div>
                   <p className="font-bold">{conta.nome}</p>
                   <p className="text-sm text-gray-600">
-                    Saldo: R$ {conta.saldo.toFixed(2)}
+                    Saldo: R${" "}
+                    {conta.saldo.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </p>
                 </div>
                 <div className="flex gap-2">

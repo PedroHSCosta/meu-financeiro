@@ -18,6 +18,26 @@ import {
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
+// Componente personalizado para o Tooltip
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-2 rounded shadow text-sm border border-gray-300">
+        <p className="font-semibold">{label}</p>
+        <p>
+          Valor:{" "}
+          {payload[0].value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const GraficoPorConta = () => {
   const { user } = useAuth();
   const [dados, setDados] = useState([]);
@@ -70,11 +90,22 @@ const GraficoPorConta = () => {
       <h2 className="text-lg font-semibold mb-4">Gastos por Conta</h2>
 
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={dados}>
+        <BarChart
+          data={dados}
+          margin={{ left: 30 }} // <-- margem ajustada
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="nome" />
-          <YAxis />
-          <Tooltip />
+          <YAxis
+            tickFormatter={(value) =>
+              value.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                maximumFractionDigits: 0,
+              })
+            }
+          />
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="valor" fill="#f59e0b" />
         </BarChart>
       </ResponsiveContainer>

@@ -112,6 +112,8 @@ function CriarTransacao() {
             <option value="Transporte">Transporte</option>
             <option value="Lazer">Lazer</option>
             <option value="Casa">Casa</option>
+            <option value="Salário">Salário</option>
+            <option value="Renda extra">Renda extra</option>
           </select>
 
           <select

@@ -15,6 +15,36 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Timestamp } from "firebase/firestore";
 
+// Tooltip personalizado com formatação BRL
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    const entradas = payload.find((item) => item.name === "Entradas");
+    const saidas = payload.find((item) => item.name === "Saídas");
+
+    return (
+      <div className="bg-white p-2 rounded shadow text-sm border border-gray-300">
+        <p className="font-semibold capitalize">{label}</p>
+        <p className="text-green-600">
+          Entradas:{" "}
+          {entradas?.value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+        <p className="text-red-500">
+          Saídas:{" "}
+          {saidas?.value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const GraficoEntradasSaidas = () => {
   const { user } = useAuth();
   const [dadosGrafico, setDadosGrafico] = useState([]);
@@ -39,8 +69,6 @@ const GraficoEntradasSaidas = () => {
               : new Date(data.data),
         };
       });
-
-      console.log("Transações em tempo real:", transacoes);
 
       const dadosPorMes = {};
 
@@ -93,7 +121,7 @@ const GraficoEntradasSaidas = () => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="mes" />
           <YAxis />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="entradas" fill="#4ade80" name="Entradas" />
           <Bar dataKey="saidas" fill="#f87171" name="Saídas" />
         </BarChart>

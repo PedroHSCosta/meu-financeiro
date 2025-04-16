@@ -13,6 +13,25 @@ import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { format } from "date-fns";
 
+// Tooltip personalizado
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-2 rounded shadow text-sm border border-gray-300">
+        <p className="font-semibold">{label}</p>
+        <p className="text-blue-600">
+          saldo:{" "}
+          {payload[0].value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const GraficoEvolucaoSaldo = () => {
   const { user } = useAuth();
   const [dadosGrafico, setDadosGrafico] = useState([]);
@@ -73,11 +92,19 @@ const GraficoEvolucaoSaldo = () => {
     <div className="bg-white p-4 rounded-2xl shadow-md">
       <h2 className="text-lg font-semibold mb-4">Evolução do Saldo</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={dadosGrafico}>
+        <LineChart data={dadosGrafico} margin={{ left: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="mes" />
-          <YAxis />
-          <Tooltip />
+          <YAxis
+            tickFormatter={(value) =>
+              value.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                maximumFractionDigits: 0,
+              })
+            }
+          />
+          <Tooltip content={<CustomTooltip />} />
           <Line
             type="monotone"
             dataKey="saldo"

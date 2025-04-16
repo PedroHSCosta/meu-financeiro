@@ -20,6 +20,34 @@ const cores = [
   "#fb7185",
 ];
 
+// Tooltip customizado em formato brasileiro
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-2 rounded shadow text-sm border border-gray-300">
+        <p className="font-semibold">{payload[0].name}</p>
+        <p>
+          Valor:{" "}
+          {payload[0].value.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+// Label customizado para o gráfico em formato de moeda brasileira
+const renderCustomLabel = ({ value }) => {
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+};
+
 const GraficoPorCategoria = () => {
   const { user } = useAuth();
   const [dados, setDados] = useState([]);
@@ -66,13 +94,13 @@ const GraficoPorCategoria = () => {
             cy="50%"
             outerRadius={100}
             fill="#8884d8"
-            label
+            label={renderCustomLabel}
           >
             {dados.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={cores[index % cores.length]} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

@@ -48,16 +48,18 @@ const ListaTransacoes = () => {
     return () => unsubscribe();
   }, [user]);
 
-  const transacoesFiltradas = transacoes.filter((transacao) => {
-    const data = transacao.data;
-    const dentroDoMes = data.getMonth() === Number(mesSelecionado);
+  const transacoesFiltradas = transacoes
+    .filter((transacao) => {
+      const data = transacao.data;
+      const dentroDoMes = data.getMonth() === Number(mesSelecionado);
 
-    const descricaoOuValor =
-      transacao.descricao?.toLowerCase().includes(termoBusca.toLowerCase()) ||
-      String(transacao.valor).includes(termoBusca);
+      const descricaoOuValor =
+        transacao.descricao?.toLowerCase().includes(termoBusca.toLowerCase()) ||
+        String(transacao.valor).includes(termoBusca);
 
-    return dentroDoMes && descricaoOuValor;
-  });
+      return dentroDoMes && descricaoOuValor;
+    })
+    .sort((a, b) => b.data - a.data); // Ordena da mais recente para a mais antiga
 
   return (
     <div className="mt-4">
@@ -76,7 +78,8 @@ const ListaTransacoes = () => {
         </select>
 
         <input
-          type={termoBusca}
+          type="text"
+          value={termoBusca}
           onChange={(e) => setTermoBusca(e.target.value)}
           placeholder="Pesquisar"
           className="w-60 p-2 border rounded ml-2"
@@ -103,7 +106,10 @@ const ListaTransacoes = () => {
               }`}
             >
               {t.tipo.toLowerCase() === "entrada" ? "+" : "-"} R${" "}
-              {parseFloat(t.valor).toFixed(2)}
+              {parseFloat(t.valor).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </li>
         ))}
