@@ -30,6 +30,17 @@ npm install
 npm run dev
 ```
 
+## Variáveis de ambiente
+
+{
+VITE_APIKEYFIREBASE = ""
+VITE_AUTH_DOMAIN = ""
+VITE_PROJECT_ID = ""
+VITE_STORAGE_BUCKET = ""
+VITE_MESSAGING_SENDER_ID = ""
+VITE_APP_ID = ""
+}
+
 ## Imagens
 
 ![Logo do Projeto](image1.png)
