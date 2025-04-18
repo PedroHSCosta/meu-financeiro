@@ -28,8 +28,8 @@ Este é um aplicativo web para controle financeiro pessoal, desenvolvido com Rea
 ## Instalação
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/PedroHSCosta/meu-financeiro.git
+cd meu-financeiro
 npm install
 npm run dev
 ```

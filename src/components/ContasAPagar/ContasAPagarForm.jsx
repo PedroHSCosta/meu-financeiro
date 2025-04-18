@@ -18,25 +18,35 @@ export default function ContasAPagarForm() {
       return;
     }
 
-    if (!descricao || !valor || !dataVencimento) return;
+    if (!descricao || !valor || !dataVencimento) {
+      alert("Preencha todos os campos obrigatórios.");
+      return;
+    }
 
-    const [ano, mes, dia] = dataVencimento.split("-").map(Number);
-    const dataVenc = new Date(ano, mes - 1, dia, 12);
+    try {
+      const [ano, mes, dia] = dataVencimento.split("-").map(Number);
+      const dataVenc = new Date(ano, mes - 1, dia, 12);
 
-    await addDoc(collection(db, "contasAPagar"), {
-      userId: user.uid,
-      descricao,
-      categoria,
-      valor: parseFloat(valor),
-      dataVencimento: dataVenc,
-      pago: false,
-      criadoEm: new Date(),
-    });
+      await addDoc(collection(db, "contasAPagar"), {
+        userId: user.uid,
+        descricao,
+        categoria,
+        valor: parseFloat(valor),
+        dataVencimento: dataVenc,
+        pago: false,
+        criadoEm: new Date(),
+      });
 
-    setDescricao("");
-    setCategoria("");
-    setValor("");
-    setDataVencimento("");
+      setDescricao("");
+      setCategoria("");
+      setValor("");
+      setDataVencimento("");
+
+      alert("Conta a pagar adicionada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao adicionar conta a pagar:", error);
+      alert("Erro ao adicionar conta.");
+    }
   };
 
   return (

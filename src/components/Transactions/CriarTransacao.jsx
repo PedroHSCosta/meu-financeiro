@@ -8,8 +8,11 @@ import {
   where,
   doc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CriarTransacao() {
   const { user } = useAuth();
@@ -21,28 +24,33 @@ function CriarTransacao() {
   const [categoria, setCategoria] = useState("");
 
   useEffect(() => {
-    const fetchContas = async () => {
-      if (!user) return;
+    if (!user?.uid) return;
+
+    try {
       const q = query(
         collection(db, "contasBancarias"),
         where("userId", "==", user.uid)
       );
-      const snapshot = await getDocs(q);
-      const contasData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setContas(contasData);
-    };
 
-    fetchContas();
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const contasData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setContas(contasData);
+      });
+
+      return () => unsubscribe();
+    } catch (error) {
+      console.error("Erro ao carregar contas bancárias:", error);
+    }
   }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!descricao || !valor || !contaId) {
-      alert("Preencha todos os campos.");
+      toast.error("Preencha todos os campos.");
       return;
     }
 
@@ -74,10 +82,10 @@ function CriarTransacao() {
       setTipo("");
       setContaId("");
 
-      alert("Transação adicionada com sucesso!");
+      toast.success("Transação adicionada com sucesso!");
     } catch (error) {
       console.error("Erro ao adicionar transação:", error);
-      alert("Erro ao adicionar transação.");
+      toast.error("Erro ao adicionar transação.");
     }
   };
 
@@ -147,6 +155,8 @@ function CriarTransacao() {
           </button>
         </form>
       </div>
+
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="flex-1"></div>
     </div>

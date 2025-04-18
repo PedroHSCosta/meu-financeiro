@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Sidebar from "./components/Sidebar";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import Notifications from "./components/Notifications"; // <-- importado aqui
 
 function AppContent() {
   const { user } = useAuth();
@@ -62,6 +63,9 @@ function AppContent() {
             }
           />
         </Routes>
+
+        {/* Notificações globais */}
+        <Notifications />
       </div>
     </div>
   );

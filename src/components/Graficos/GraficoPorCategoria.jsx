@@ -20,7 +20,6 @@ const cores = [
   "#fb7185",
 ];
 
-// Tooltip customizado em formato brasileiro
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
@@ -40,7 +39,6 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-// Label customizado para o gráfico em formato de moeda brasileira
 const renderCustomLabel = ({ value }) => {
   return value.toLocaleString("pt-BR", {
     style: "currency",

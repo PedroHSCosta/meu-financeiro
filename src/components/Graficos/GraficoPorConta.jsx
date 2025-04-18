@@ -18,7 +18,6 @@ import {
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
-// Componente personalizado para o Tooltip
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -90,10 +89,7 @@ const GraficoPorConta = () => {
       <h2 className="text-lg font-semibold mb-4">Gastos por Conta</h2>
 
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          data={dados}
-          margin={{ left: 30 }} // <-- margem ajustada
-        >
+        <BarChart data={dados} margin={{ left: 30 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="nome" />
           <YAxis

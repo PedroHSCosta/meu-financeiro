@@ -4,6 +4,8 @@ import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { createTransaction } from "../Transactions/utils/CreateTransaction";
 import { UpdateAmountBank } from "../Transactions/utils/UpdateAmountBank";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CriarConta() {
   const [nome, setNome] = useState("");
@@ -14,12 +16,12 @@ function CriarConta() {
     e.preventDefault();
 
     if (!user) {
-      alert("Usuário não autenticado.");
+      toast.error("Usuário não autenticado.");
       return;
     }
 
     if (!nome || saldo === "") {
-      alert("Preencha todos os campos.");
+      toast.error("Preencha todos os campos.");
       return;
     }
 
@@ -48,9 +50,10 @@ function CriarConta() {
 
       setNome("");
       setSaldo("");
+      toast.success("Conta criada com sucesso!");
     } catch (error) {
       console.error("Erro ao criar conta:", error.message);
-      alert("Erro ao criar conta: " + error.message);
+      toast.error("Erro ao criar conta: " + error.message);
     }
   };
 
@@ -85,6 +88,8 @@ function CriarConta() {
           </button>
         </form>
       </div>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

@@ -59,7 +59,7 @@ const ListaTransacoes = () => {
 
       return dentroDoMes && descricaoOuValor;
     })
-    .sort((a, b) => b.data - a.data); // Ordena da mais recente para a mais antiga
+    .sort((a, b) => b.data - a.data);
 
   return (
     <div className="mt-4">

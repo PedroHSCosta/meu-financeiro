@@ -13,7 +13,6 @@ import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { format } from "date-fns";
 
-// Tooltip personalizado
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -92,7 +91,7 @@ const GraficoEvolucaoSaldo = () => {
     <div className="bg-white p-4 rounded-2xl shadow-md">
       <h2 className="text-lg font-semibold mb-4">Evolução do Saldo</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={dadosGrafico} margin={{ left: 20 }}>
+        <LineChart data={dadosGrafico} margin={{ left: 30 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="mes" />
           <YAxis

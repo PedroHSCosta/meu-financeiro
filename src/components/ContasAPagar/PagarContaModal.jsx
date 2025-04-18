@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createTransaction } from "../Transactions/utils/CreateTransaction";
 import { useAuth } from "../../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 export default function PagarContaModal({
   conta,
@@ -10,20 +11,31 @@ export default function PagarContaModal({
 }) {
   const [contaSelecionada, setContaSelecionada] = useState("");
   const { user } = useAuth();
-  const handleConfirmar = async () => {
-    if (!contaSelecionada) return;
-    onConfirm(contaSelecionada);
-    onClose();
 
-    await createTransaction({
-      descricao: conta.descricao,
-      categoria: conta.categoria,
-      valor: conta.valor,
-      tipo: "Saída",
-      contaId: contaSelecionada,
-      userId: user.uid,
-      data: new Date(),
-    });
+  const handleConfirmar = async () => {
+    if (!contaSelecionada) {
+      toast.error("Selecione uma conta para continuar!");
+      return;
+    }
+
+    try {
+      await createTransaction({
+        descricao: conta.descricao,
+        categoria: conta.categoria,
+        valor: conta.valor,
+        tipo: "Saída",
+        contaId: contaSelecionada,
+        userId: user.uid,
+        data: new Date(),
+      });
+
+      toast.success("Conta paga com sucesso!");
+      onConfirm(contaSelecionada);
+      onClose();
+    } catch (error) {
+      console.error("Erro ao pagar a conta:", error);
+      toast.error("Erro ao pagar a conta. Tente novamente.");
+    }
   };
 
   return (
@@ -35,6 +47,7 @@ export default function PagarContaModal({
         <p className="text-gray-700">
           Vencimento: {conta.dataVencimento?.toDate().toLocaleDateString()}
         </p>
+
         <h2 className="text-lg font-bold mb-4 mt-4">
           Escolha a conta para pagamento
         </h2>
