@@ -117,11 +117,17 @@ function CriarTransacao() {
               Selecione uma categoria
             </option>
             <option value="Alimentação">Alimentação</option>
+            <option value="Transação">Transação</option>
             <option value="Transporte">Transporte</option>
+            <option value="Educação">Educação</option>
             <option value="Lazer">Lazer</option>
             <option value="Casa">Casa</option>
+            <option value="Saúde">Saúde</option>
+            <option value="Animal">Animal</option>
             <option value="Salário">Salário</option>
             <option value="Renda extra">Renda extra</option>
+            <option value="Recebido">Recebido</option>
+            <option value="Outros">Outros</option>
           </select>
 
           <select
